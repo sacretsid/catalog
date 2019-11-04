@@ -11,5 +11,12 @@ use Core\Model;
  */
 class ArticleModel extends Model
 {
-
+    /**
+     * ArticleModel constructor.
+     * @param string $name
+     */
+    public function __construct(string $name = 'article')
+    {
+        parent::__construct($name);
+    }
 }

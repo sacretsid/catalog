@@ -11,5 +11,12 @@ use Core\Model;
  */
 class AuthorModel extends Model
 {
-
+    /**
+     * AuthorModel constructor.
+     * @param string $name
+     */
+    public function __construct(string $name = 'author')
+    {
+        parent::__construct($name);
+    }
 }

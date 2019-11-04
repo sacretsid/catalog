@@ -11,5 +11,12 @@ use Core\Model;
  */
 class CatalogModel extends Model
 {
-
+    /**
+     * CatalogModel constructor.
+     * @param string $name
+     */
+    public function __construct(string $name = '')
+    {
+        parent::__construct($name);
+    }
 }

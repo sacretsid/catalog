@@ -11,5 +11,12 @@ use Core\Model;
  */
 class HeadingModel extends Model
 {
-
+    /**
+     * HeadingModel constructor.
+     * @param string $name
+     */
+    public function __construct(string $name = 'heading')
+    {
+        parent::__construct($name);
+    }
 }
