@@ -24,6 +24,10 @@ class Model
         $this->PrimaryKey = 'id';
     }
 
+    public function render(string $view = '')
+    {
+    }
+
     public function get()
     {
     }

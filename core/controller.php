@@ -9,24 +9,21 @@ namespace Core;
  */
 class Controller
 {
-    /** @var Model */
-    public $Model;
+    /** @var Model base model */
+    protected $Model;
     /** @var string view name */
-    public $View = '';
+    protected $View = 'index';
 
     /**
      * Controller constructor.
      */
     public function __construct()
     {
+        $this->Model = new Model();
     }
 
-    public function render()
+    protected function render()
     {
-    }
-
-    public function index()
-    {
-        $this->render();
+        $this->Model->render($this->View);
     }
 }
