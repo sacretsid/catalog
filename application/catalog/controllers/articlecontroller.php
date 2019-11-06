@@ -26,6 +26,8 @@ class ArticleController extends Controller
 
     public function index()
     {
+        $articles = $this->ArticleModel->get();
+        $this->setData('Articles', $articles);
         $this->render();
     }
 }

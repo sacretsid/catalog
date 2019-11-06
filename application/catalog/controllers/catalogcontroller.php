@@ -26,6 +26,8 @@ class CatalogController extends Controller
 
     public function index()
     {
+        $catalogs = $this->CatalogModel->get();
+        $this->setData('Catalogs', $catalogs);
         $this->render();
     }
 }

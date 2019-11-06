@@ -70,4 +70,18 @@ class Database
         $stmt->execute($args);
         return $stmt;
     }
+
+    /**
+     * @param string $table
+     * @param string $fields
+     * @return array|null
+     */
+    public function get(string $table, $fields = '*')
+    {
+        if (!empty($table)) {
+            return self::run('SELECT ' . $fields . ' FROM ' . $table)->fetchAll(PDO::FETCH_KEY_PAIR);
+        } else {
+            return null;
+        }
+    }
 }

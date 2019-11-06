@@ -9,10 +9,12 @@ namespace Core;
  */
 class Controller
 {
-    /** @var Model base model */
+    /** @var Model Base model */
     protected $Model;
-    /** @var string view name */
+    /** @var string View name */
     protected $View = 'index';
+    /** @var array The data from model to view */
+    protected $Data = [];
 
     /**
      * Controller constructor.
@@ -22,8 +24,47 @@ class Controller
         $this->Model = new Model();
     }
 
-    protected function render()
+    /**
+     * @param string $view
+     */
+    public function setView(string $view = '')
     {
-        $this->Model->render($this->View);
+        $this->View = $view;
+    }
+
+    /**
+     * @return string
+     */
+    public function getView()
+    {
+        return $this->View;
+    }
+
+    /**
+     * @param string $key
+     * @param null|mixed $value
+     */
+    public function setData(string $key, $value = null)
+    {
+        $this->Data[$key] = $value;
+    }
+
+    /**
+     * @param string $path
+     * @param string $default
+     * @return mixed|string
+     */
+    public function getData(string $path, $default = '')
+    {
+        if (isset($this->Data[$path])) {
+            return $this->Data[$path];
+        } else {
+            return $default;
+        }
+    }
+
+    public function render()
+    {
+        $this->Model->render();
     }
 }

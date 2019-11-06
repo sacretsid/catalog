@@ -26,6 +26,8 @@ class AuthorController extends Controller
 
     public function index()
     {
+        $authors = $this->AuthorModel->get();
+        $this->setData('Authors', $authors);
         $this->render();
     }
 }
