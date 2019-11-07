@@ -47,9 +47,4 @@ class Model
     {
         return $this->SQL->get($this->TableName);
     }
-
-    public function render(string $view = '')
-    {
-
-    }
 }

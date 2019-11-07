@@ -24,7 +24,6 @@ class Bootstrap
 
     private function router()
     {
-        $router = new Router();
-        $router->start();
+        Router::start();
     }
 }

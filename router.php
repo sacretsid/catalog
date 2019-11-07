@@ -6,43 +6,72 @@
  */
 class Router
 {
-    public $DefaultMethod = 'index';
+    /** @var string Default controller's method */
+    public static $DefaultMethod = 'index';
+    /** @var string Application name */
+    public static $ApplicationName;
 
-    public function start()
+    public static function start()
     {
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
         array_shift($routes);
-        $applicationPart = (string)array_shift($routes);
-        $controllerPart  = (string)array_shift($routes);
-        $methodPart      = (string)array_shift($routes);
+        $applicationPart = self::getFormattedPart($routes);
+        $controllerPart  = self::getFormattedPart($routes);
+        $methodPart      = self::getFormattedPart($routes);
 
-        $controllerPath = $this->getControllerPath($applicationPart, $controllerPart);
+        $controllerPath = self::getControllerPath($applicationPart, $controllerPart);
         $controllerFile = strtolower(implode('/', $controllerPath)) . '.php';
         $controllerName = implode('\\', $controllerPath);
-        $methodName = $this->getMethodName($methodPart);
+        $methodName     = self::getMethodName($methodPart);
 
         if (!file_exists($controllerFile)) {
-            $controllerPath = $this->getControllerPath($applicationPart, $applicationPart);
+            $controllerPath = self::getControllerPath($applicationPart, $applicationPart);
             $controllerFile = strtolower(implode('/', $controllerPath)) . '.php';
             $controllerName = implode('\\', $controllerPath);
-            $methodName = $this->getMethodName($controllerPart);
+            $methodName     = self::getMethodName($controllerPart);
 
             if (!file_exists($controllerFile)) {
-                $this->page404();
+                self::page404();
             }
         }
 
         $controller = new $controllerName;
         if (method_exists($controller, $methodName)) {
+            self::setApplicationName($applicationPart);
             call_user_func_array(array($controller, $methodName), $routes);
         } else {
-            $this->page404();
+            self::page404();
         }
     }
 
-    public function page404()
+    public static function page404()
     {
+    }
+
+    /**
+     * @return string
+     */
+    public static function getApplicationName()
+    {
+        return self::$ApplicationName;
+    }
+
+    /**
+     * @param string $applicationPart
+     */
+    private static function setApplicationName(string $applicationPart = '')
+    {
+        self::$ApplicationName = ucfirst($applicationPart);
+    }
+
+    /**
+     * @param array $routes
+     * @return string
+     */
+    private static function getFormattedPart(array &$routes)
+    {
+        return strtolower((string)array_shift($routes));
     }
 
     /**
@@ -50,14 +79,14 @@ class Router
      * @param string $controller
      * @return array
      */
-    private function getControllerPath(string $application, string $controller = '')
+    private static function getControllerPath(string $application, string $controller = '')
     {
         $controllerPath = [];
 
         $controllerPath[] = 'Application';
-        $controllerPath[] = ucfirst(strtolower($application));
+        $controllerPath[] = ucfirst($application);
         $controllerPath[] = 'Controllers';
-        $controllerPath[] = ucfirst(strtolower($controller)) . 'Controller';
+        $controllerPath[] = ucfirst($controller) . 'Controller';
 
         return $controllerPath;
     }
@@ -66,11 +95,10 @@ class Router
      * @param string $method
      * @return string
      */
-    private function getMethodName(string $method)
+    private static function getMethodName(string $method)
     {
-        $methodName = strtolower($method);
         if (empty($methodName)) {
-            $methodName = $this->DefaultMethod;
+            $methodName = self::$DefaultMethod;
         }
 
         return $methodName;
