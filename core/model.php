@@ -13,7 +13,7 @@ class Model
     public $TableName = '';
     /** @var string name of the primary key */
     public $PrimaryKey = '';
-    /** @var Database */
+    /** @var SQL */
     public $SQL;
 
     /**
@@ -24,7 +24,27 @@ class Model
     {
         $this->TableName = $name;
         $this->PrimaryKey = 'id';
-        $this->SQL = new Database();
+        $this->SQL = new SQL();
+    }
+
+    /**
+     * @param array $fields
+     * @param array $where
+     * @return array|null
+     */
+    public function get(array $fields = [], array $where = [])
+    {
+        return $this->SQL->fetchALL($this->TableName, $fields, $where);
+    }
+
+    /**
+     * @param array $fields
+     * @param array $where
+     * @return array|null
+     */
+    public function first(array $fields = [], array $where = [])
+    {
+        return $this->SQL->fetch($this->TableName, $fields, $where);
     }
 
     /**
@@ -32,19 +52,15 @@ class Model
      */
     public function insert(array $fields)
     {
-
-    }
-
-    public function update(array $fields, array $where)
-    {
-
+        $this->SQL->insert($this->TableName, $fields);
     }
 
     /**
-     * @return array
+     * @param array $fields
+     * @param array $where
      */
-    public function get()
+    public function update(array $fields, array $where)
     {
-        return $this->SQL->get($this->TableName);
+        $this->SQL->update($this->TableName, $fields);
     }
 }
