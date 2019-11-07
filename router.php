@@ -92,10 +92,10 @@ class Router
     }
 
     /**
-     * @param string $method
+     * @param string $methodName
      * @return string
      */
-    private static function getMethodName(string $method)
+    private static function getMethodName(string $methodName)
     {
         if (empty($methodName)) {
             $methodName = self::$DefaultMethod;
