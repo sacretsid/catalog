@@ -52,7 +52,7 @@ class SQL
     public function insert(string $table, array $fields = [])
     {
         if (!empty($table)) {
-            $sql = 'INSERT INTO ' . $fields;
+            $sql = 'INSERT INTO ' . $table;
             $sql .= ' ()';
             $sql .= ' VALUES';
             $sql .= ' ()';
